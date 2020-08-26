@@ -1,6 +1,6 @@
 {
   "name": "@aburkov/gomerge",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -17,7 +17,13 @@
     "type": "git",
     "url": "git+https://github.com/burkov/gomerge.git"
   },
-  "keywords": ["gopro", "video", "ffmpeg", "merge", "concat"],
+  "keywords": [
+    "gopro",
+    "video",
+    "ffmpeg",
+    "merge",
+    "concat"
+  ],
   "author": "abu",
   "license": "MIT",
   "bugs": {
