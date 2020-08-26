@@ -4,8 +4,8 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "ship:patch": "np --yolo --no-release-draft patch && npm link --force",
-    "ship:minor": "np --yolo --no-release-draft minor && npm link --force",
+    "ship:patch": "np --yolo --no-release-draft --no-2fa patch && npm link --force",
+    "ship:minor": "np --yolo --no-release-draft --no-2fa minor && npm link --force",
     "prettier": "prettier --write \"src/**/*.ts*\"",
     "test": "jest",
     "build": "rimraf ./lib && tsc",
