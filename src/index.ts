@@ -5,8 +5,9 @@ import path from 'path';
 import _ from 'lodash';
 import assert from 'assert';
 import chalk from 'chalk';
-import commonp from "common-prefix";
-import child_process from "child_process";
+import commonp from 'common-prefix';
+import child_process from 'child_process';
+import inquirer from 'inquirer';
 
 interface GoProFile {
   filename: string;
@@ -40,19 +41,21 @@ const mergeFiles = function ({ inputs, output }: Operation, dryRun = true, tmpDi
   assert(inputs.length > 1, 'you should use rename instead of merging');
   if (dryRun) {
     const common = commonp(inputs);
-    const input = inputs.map(x => x.slice(common.length, -4)).join(',')
+    const input = inputs.map((x) => x.slice(common.length, -4)).join(',');
     coloroizedLog('Merging ', output, `${common}{${input}}.mp4`);
   } else {
     const demuxFile = `${output}.txt`;
-    fs.writeFileSync(demuxFile, inputs.map(x => `file '${x}'`).join('\n'));
-    child_process.execSync(`ffmpeg -f concat -safe 0 -i "${demuxFile}" -c copy "${output}"`, { stdio: 'inherit' })
+    fs.writeFileSync(demuxFile, inputs.map((x) => `file '${x}'`).join('\n'));
+    child_process.execSync(`ffmpeg -f concat -safe 0 -i "${demuxFile}" -c copy "${output}"`, {
+      stdio: 'inherit',
+    });
     fs.unlinkSync(demuxFile);
     inputs.forEach(fs.unlinkSync);
   }
-}
+};
 
-
-const targetDir = 'C:\\Users\\apbur\\todo\\200608 Krasnoe selo';
+// const targetDir = 'C:\\Users\\apbur\\todo\\200608 Krasnoe selo';
+const targetDir = path.resolve('.');
 
 const files: GoProFile[] = fs
   .readdirSync(targetDir)
@@ -73,12 +76,21 @@ const operations = _.sortBy(Object.entries(_.groupBy(files, 'number')), (x) => x
   },
 );
 
-operations.forEach((x) => {
-  x.inputs.length > 1 ? mergeFiles(x, true, targetDir) : renameFile(x, true);
-});
+const runOps = function (dryRun = true) {
+  operations.forEach((x) => {
+    x.inputs.length > 1 ? mergeFiles(x, dryRun, targetDir) : renameFile(x, dryRun);
+  });
+};
 
+runOps(true);
 
-
-operations.forEach((x) => {
-  x.inputs.length > 1 ? mergeFiles(x, false, targetDir) : renameFile(x, false);
-});
+inquirer
+  .prompt([
+    {
+      message: 'Do you want to continue?',
+      type: 'confirm',
+      name: 'proceed',
+      default: true,
+    },
+  ])
+  .then(({ proceed }: { proceed: boolean }) => proceed && runOps(false));
