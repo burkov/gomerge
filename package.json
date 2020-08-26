@@ -17,7 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/burkov/gomerge.git"
   },
-  "keywords": [],
+  "keywords": ["gopro", "video", "ffmpeg", "merge", "concat"],
   "author": "abu",
   "license": "MIT",
   "bugs": {
