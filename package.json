@@ -1,0 +1,51 @@
+{
+  "name": "@aburkov/gomerge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "ship:patch": "np --yolo --no-release-draft patch && npm link --force",
+    "ship:minor": "np --yolo --no-release-draft minor && npm link --force",
+    "prettier": "prettier --write \"src/**/*.ts*\"",
+    "test": "jest",
+    "build": "rimraf ./lib && tsc",
+    "postversion": "ts-node update-version.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [],
+  "author": "abu",
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "bin": {
+    "gomerge": "lib/index.js"
+  },
+  "types": "lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.10",
+    "@types/lodash": "^4.14.160",
+    "@types/nconf": "^0.10.0",
+    "@types/prettier": "^2.0.2",
+    "@types/rimraf": "^3.0.0",
+    "execa": "^4.0.3",
+    "git-repo-info": "^2.1.1",
+    "jest": "^26.4.2",
+    "nconf": "^0.10.0",
+    "np": "^6.4.0",
+    "npm-check-updates": "^7.1.1",
+    "prettier": "^2.1.0",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.2",
+    "typesync": "^0.7.0"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "lodash": "^4.17.20"
+  }
+}
